@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "coen346_cpu_scheduler"
+version = "0.1.0"
+description = "A Priority Based Process Scheduling Simulation"
+authors = ["minhtrannhat <minhtrannhat@tutanota.com>"]
+license = "GPL3.0"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pre-commit = "^2.17.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
