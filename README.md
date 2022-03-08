@@ -1,5 +1,6 @@
 # COEN346 CPU Scheduler Simulation
- A Priority Based Process Scheduling Simulation
+
+A Priority Based Process Scheduling Simulation
 
 ## Problem Statement
 
@@ -12,9 +13,9 @@
   - Priority
 - Priorities are between 1 and 139.
 - Scheduler start at second 1 (1000ms). It assigns to the first process in the active queue its time slot and gives it the CPU. Once the time slow expires, this process is moved to the expired queue. Time slots are calculated as follows:
-  - If priority < 100: Ts = (140-priority) * 20 (millisecond)
-  - If priority >= 100: Ts = (140-priority) * 5(millisecond)
-- When a new process arrives, its PID is inserted in the Expired Queue. *The Expired Queue is arranged in an increasing order of process priorities*.
+  - If priority < 100: `Ts = (140-priority) * 20 (millisecond)`
+  - If priority >= 100: `Ts = (140-priority) * 5(millisecond)`
+- When a new process arrives, its PID is inserted in the Expired Queue. _The Expired Queue is arranged in an increasing order of process priorities_.
 - The scheduler' logic is basically a cycle of two activities.
   - Execute the processes in the queue flagged as active.
   - If the queue flagged as active is empty, change the flags of both queues and go back to 1.
@@ -26,9 +27,11 @@
 - If a process finishes running before it's time slice, the scheduler will idle till the next time slice.
 
 ## Implementation
+
 - [ ] Create a parser to parse the `input.txt` file.
 - [ ] Create three separate kinds of threads for: scheduler, processes and clock.
   - [ ] The scheduler only knows the PID, priority of a process and when to allocate CPU to a process.
   - [ ] A process only knows the arrival time, burst time and time spent in CPU and how much time left to finish execution.
     - The process thread is started when the CPU gives it execution time for the first time. Then it can be suspended.
   - [ ] The clock thread should be started in the main python thread.
+    - [ ] Use shared Mutex and Singleton (?), use Barrier of 1 to achieve Round Robin.
