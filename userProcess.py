@@ -1,4 +1,4 @@
-class Process:
+class UserProcess:
     timeSpentInCPU: int = 0
     timeLeftToFinish: int = 0
 
