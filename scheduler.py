@@ -3,9 +3,10 @@ from threading import Thread
 
 
 class Scheduler(Thread):
+    schedulerTotalProcessesQueue = []
+
     def __init__(self):
         super(Scheduler, self).__init__()
-        self.schedulerTotalProcessesQueue = []
         self.activeQueue = PriorityQueue()
         self.expiredQueue = PriorityQueue()
         self.numberOfProcesses: int = 0
