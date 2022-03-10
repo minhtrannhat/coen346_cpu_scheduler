@@ -3,7 +3,8 @@ from threading import Thread
 
 
 class Scheduler(Thread):
-    def start(self) -> None:
+    def __init__(self):
+        super(Scheduler, self).__init__()
         self.schedulerTotalProcessesQueue = []
         self.activeQueue = PriorityQueue()
         self.expiredQueue = PriorityQueue()
@@ -11,9 +12,6 @@ class Scheduler(Thread):
 
     def run(self) -> None:
         return super().run()
-
-    def __init__(self) -> None:
-        pass
 
     def switchFlagsOfQueues(self) -> None:
         tmp = self.activeQueue
