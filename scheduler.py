@@ -1,14 +1,16 @@
 from queue import PriorityQueue
+from threading import Thread
 
 
-class Scheduler:
-    schedulerTotalProcessesQueue = []
-    schedulerQ1 = PriorityQueue()
-    schedulerQ2 = PriorityQueue()
-    numberOfProcesses: int = 0
+class Scheduler(Thread):
+    def start(self) -> None:
+        self.schedulerTotalProcessesQueue = []
+        self.activeQueue = PriorityQueue()
+        self.expiredQueue = PriorityQueue()
+        self.numberOfProcesses: int = 0
 
-    activeQueue = schedulerQ1
-    expiredQueue = schedulerQ2
+    def run(self) -> None:
+        return super().run()
 
     def __init__(self) -> None:
         pass
