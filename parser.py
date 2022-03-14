@@ -18,7 +18,7 @@ class Parser:
                     UserProcess(line.split()[1], line.split()[2])
                 )
                 Scheduler.schedulerTotalProcessesQueue.append(
-                    SchedulerProcess(line.split()[0], line.split()[3])
+                    SchedulerProcess(line.split()[0], int(line.split()[3]))
                 )
 
     def getNumberofProcesses(self) -> int:

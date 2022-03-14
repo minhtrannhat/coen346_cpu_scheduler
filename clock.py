@@ -9,7 +9,11 @@ class Clock(Thread):
 
     def run(self):
         while True:
+            if self.currentTime == 5000:
+                break
+
             # sleep for 50 milliseconds
             sleep(0.05)
+
             # increment clock by 5 milliseconds
-            self.currentTime = self.currentTime + 5
+            self.currentTime += 5

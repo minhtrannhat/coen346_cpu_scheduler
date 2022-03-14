@@ -1,10 +1,9 @@
 class UserProcess:
-    timeSpentInCPU: int = 0
-    timeLeftToFinish: int = 0
-
     def __init__(self, arrivalTime, burstTime):
         self.arrivalTime = arrivalTime
         self.burstTime = burstTime
+        self.timeSpentInCPU: int = 0
+        self.timeLeftToFinish: int = burstTime
 
     def getTimeSpentInCPU(self) -> int:
         return self.timeSpentInCPU
