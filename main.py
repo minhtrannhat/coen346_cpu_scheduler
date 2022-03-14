@@ -1,10 +1,14 @@
 from parser import Parser
 from scheduler import Scheduler
 from clock import Clock
+from schedulerProcess import SchedulerProcess
 import logging
 
 
 def main():
+    # create the clock object
+    clock = Clock()
+
     # setup logging to output.txt
     logging.basicConfig(
         filename="output.txt",
@@ -12,15 +16,14 @@ def main():
         force=True,
         level=logging.INFO,
         # TODO how to get logging to display clock time and PID
-        format="Time {clock.currentTime} - {message}",
-        style="{",
+        # format="Time {Clock.currentTime} - {SchedulerProcess.PID} - {message}",
+        format="%(message)s",
     )
 
     # start the logger
-    logger = logging.getLogger()
+    logger = logging.getLogger(__name__)
 
     # start the clock thread
-    clock = Clock()
     clock.start()
     clock.join()
 
@@ -28,16 +31,16 @@ def main():
     parser = Parser()
 
     logger.info(
-        f"The number of processes to schedule is {parser.getNumberofProcesses()}"
+        "The number of processes to schedule is %d", parser.getNumberofProcesses()
     )
 
-    for process in parser.listOfUserProcesses:
-        logger.info(f"process's arrival time is {process.arrivalTime}")
-        logger.info(f"process's burst time is {process.burstTime}")
+    # for process in parser.listOfUserProcesses:
+    #     logger.info(f"process's arrival time is {process.arrivalTime}")
+    #     logger.info(f"process's burst time is {process.burstTime}")
 
-    for process in Scheduler.schedulerTotalProcessesQueue:
-        logger.info(f"process's PID is {process.PID}")
-        logger.info(f"process's priority is {process.priority}")
+    # for process in Scheduler.schedulerTotalProcessesQueue:
+    #     logger.info(f"process's PID is {process.PID}")
+    #     logger.info(f"process's priority is {process.priority}")
 
     # Create a lock here and pass this global lock to all threads as argument
 

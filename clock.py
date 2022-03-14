@@ -17,3 +17,6 @@ class Clock(Thread):
 
             # increment clock by 5 milliseconds
             self.currentTime += 5
+
+    def __str__(self) -> str:
+        return str(self.currentTime)
