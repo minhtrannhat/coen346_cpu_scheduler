@@ -14,7 +14,6 @@ def main():
         # TODO how to get logging to display clock time and PID
         format="Time {clock.currentTime} - {message}",
         style="{",
-        datefmt="%m/%d/%Y %I:%M:%S %p",
     )
 
     # start the logger
@@ -39,6 +38,8 @@ def main():
     for process in Scheduler.schedulerTotalProcessesQueue:
         logger.info(f"process's PID is {process.PID}")
         logger.info(f"process's priority is {process.priority}")
+
+    # Create a lock here and pass this global lock to all threads as argument
 
 
 if __name__ == "__main__":
