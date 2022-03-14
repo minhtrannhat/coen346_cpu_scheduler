@@ -25,13 +25,16 @@ A Priority Based Process Scheduling Simulation
   - `new_priority = max(100,min(old_priority - bonus + 5,139))`
 - Time unit for this program is in milliseconds but we may assume we have to update the status every 100ms. For reference, 1000ms = 1 second.
 - If a process finishes running before it's time slice, the scheduler will idle till the next time slice.
+- Don't create more "process" threads than necessary. Threads should be started, suspended, resumed and then joined.
+- Use a min heap for the expired queue. Don't need to sort the active queue.
+- Computing bonus priority should be done in userProcess.
 
 ## Implementation
 
 - [ ] Create a parser to parse the `input.txt` file.
 - [ ] Create three separate kinds of threads for: scheduler, processes and clock.
-  - [ ] The scheduler only knows the PID, priority of a process and when to allocate CPU to a process.
-  - [ ] A process only knows the arrival time, burst time and time spent in CPU and how much time left to finish execution.
+  - [ ] The scheduler only knows the PID, priority of a process and when to allocate CPU to a process. Processes from the scheduler's POV is `schedulerProcess.py`
+  - [ ] A process only knows the arrival time, burst time and time spent in CPU and how much time left to finish execution. Processes from the processes itself POV is `userProcess.py`
     - The process thread is started when the CPU gives it execution time for the first time. Then it can be suspended.
   - [ ] The clock thread should be started in the main python thread.
     - [ ] Use shared Mutex and Singleton (?), use Barrier of 1 to achieve Round Robin.

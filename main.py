@@ -12,9 +12,9 @@ def main():
     # setup logging to output.txt
     logging.basicConfig(
         filename="output.txt",
-        filemode="w",
+        filemode="a",
         force=True,
-        level=logging.INFO,
+        level=logging.DEBUG,
         # TODO how to get logging to display clock time and PID
         # format="Time {Clock.currentTime} - {SchedulerProcess.PID} - {message}",
         format="%(message)s",
@@ -23,9 +23,9 @@ def main():
     # start the logger
     logger = logging.getLogger(__name__)
 
-    # start the clock thread
-    clock.start()
-    clock.join()
+    # # start the clock thread
+    # clock.start()
+    # clock.join()
 
     # start the parser to get the necessary data
     parser = Parser()
