@@ -1,1 +1,0 @@
-The number of processes to schedule is 3

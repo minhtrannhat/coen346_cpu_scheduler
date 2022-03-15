@@ -2,6 +2,9 @@ class SchedulerProcess:
     PID: str = ""
     priority: int = 0
     currentTimeSlice: int = 0
+    waitingTime: int = 0
+    # sync the arrival time with the process's arrivalTime
+    arrivalTime: int = 0
 
     def __init__(self, pid: str, priority: int):
         self.PID = pid
