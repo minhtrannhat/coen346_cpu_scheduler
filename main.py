@@ -1,33 +1,20 @@
 from parser import Parser
 from scheduler import Scheduler
 from clock import Clock
-from schedulerProcess import SchedulerProcess
+from threading import Lock
 
 
 def main():
-    # create the clock object
-    clock = Clock()
-
-    # # start the clock thread
-    clock.start()
-    # clock.join()
-
     # start the parser to get the necessary data
     parser = Parser()
 
-    # logger.info(
-    #     "The number of processes to schedule is %d", parser.getNumberofProcesses()
-    # )
+    # create a lock for both the scheduler and the clock
+    lock = Lock()
 
-    # for process in parser.listOfUserProcesses:
-    #     logger.info(f"process's arrival time is {process.arrivalTime}")
-    #     logger.info(f"process's burst time is {process.burstTime}")
+    scheduler = Scheduler(parser.listOfSchedulerProcesses, lock)
 
-    # for process in Scheduler.schedulerTotalProcessesQueue:
-    #     logger.info(f"process's PID is {process.PID}")
-    #     logger.info(f"process's priority is {process.priority}")
-
-    # Create a lock here and pass this global lock to all threads as argument
+    # the scheduler also starts the clock
+    scheduler.start()
 
 
 if __name__ == "__main__":

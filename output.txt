@@ -1,0 +1,4 @@
+Current time is 1000
+The current processes in the active queue are: []
+The current processes in the expired queue are: []
+Switching flags for the queues!

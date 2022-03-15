@@ -1,21 +1,23 @@
 from threading import Thread
-from heapq import heapify, heappush
+from heapq import heapify, heappush, heappop
 from clock import Clock
+from schedulerProcess import SchedulerProcess
+from userProcess import UserProcess
 import logging
 
 
 class Scheduler(Thread):
-    schedulerTotalProcessesQueue = []
-
-    def __init__(self) -> None:
+    def __init__(self, schedulerTotalProcessesQueueGlobal, lock) -> None:
         super(Scheduler, self).__init__()
         self.activeQueue = []
         heapify(self.activeQueue)
         self.expiredQueue = []
         heapify(self.expiredQueue)
         self.numberOfProcesses: int = 0
-        self.schedulerTotalProcessesQueue = []
-        self.noMoreInput = False
+        self.schedulerTotalProcessesQueue: list[
+            SchedulerProcess
+        ] = schedulerTotalProcessesQueueGlobal
+        self.lock = lock
 
     def run(self) -> None:
         # setup logging to output.txt
@@ -32,16 +34,36 @@ class Scheduler(Thread):
         logger = logging.getLogger(__name__)
 
         # start the clock thread
-        clock = Clock()
+        clock = Clock(self.lock)
         clock.start()
 
+        # busy wait till time is 1000ms == second 1
+        while clock.currentTime < 1000:
+            continue
+
         while True:
-            # If the active queue is empty, swap the flags of the two queues
-            if not self.activeQueue:
-                self.switchFlagsOfQueues()
-            else:
-                # check if at this time, any process arrived
-                self.schedulerTotalProcessesQueue
+            # wait for lock from Clock thread
+            with self.lock:
+                # If the active queue is empty, swap the flags of the two queues
+                if not self.activeQueue:
+                    logger.debug(f"Current time is {clock.currentTime}")
+                    self.switchFlagsOfQueues()
+                    logger.debug(
+                        f"The current processes in the active queue are: {self.activeQueue}"
+                    )
+                    logger.debug(
+                        f"The current processes in the expired queue are: {self.expiredQueue}"
+                    )
+                    logger.debug("Switching flags for the queues!")
+                    break
+                else:
+                    # check if at this time, any process arrived
+                    for process in self.schedulerTotalProcessesQueue:
+                        if process.arrivalTime == clock.currentTime:
+                            self.insertIntoExpiredQueue(process)
+
+                    # Get time slice/slot for the first process in the active queue
+                    self.getTimeSliceForProcess(heappop(self.activeQueue))
 
     def switchFlagsOfQueues(self) -> None:
         tmp = self.activeQueue
