@@ -44,26 +44,39 @@ class Scheduler(Thread):
         while True:
             # wait for lock from Clock thread
             with self.lock:
+                # check if at this time, any process arrived
+                for process in self.schedulerTotalProcessesQueue:
+                    if process.arrivalTime == clock.currentTime:
+                        self.insertIntoExpiredQueue(process)
+                        logger.debug(
+                            f"{process.PID} arrived at time {clock.currentTime} and was put into Expired Queue"
+                        )
+                        logger.debug(
+                            f"The current processes in the active queue are: {self.activeQueue}"
+                        )
+                        logger.debug(
+                            f"The current processes in the expired queue are: {self.expiredQueue}"
+                        )
+
                 # If the active queue is empty, swap the flags of the two queues
                 if not self.activeQueue:
                     logger.debug(f"Current time is {clock.currentTime}")
                     self.switchFlagsOfQueues()
+                    logger.debug("Switched flags for the queues!")
                     logger.debug(
                         f"The current processes in the active queue are: {self.activeQueue}"
                     )
                     logger.debug(
                         f"The current processes in the expired queue are: {self.expiredQueue}"
                     )
-                    logger.debug("Switching flags for the queues!")
-                    break
                 else:
-                    # check if at this time, any process arrived
-                    for process in self.schedulerTotalProcessesQueue:
-                        if process.arrivalTime == clock.currentTime:
-                            self.insertIntoExpiredQueue(process)
-
                     # Get time slice/slot for the first process in the active queue
-                    self.getTimeSliceForProcess(heappop(self.activeQueue))
+                    process: SchedulerProcess = heappop(self.activeQueue)[1]
+                    self.getTimeSliceForProcess(process)
+                    logger.debug(
+                        f"Process {process.PID} got allocated {process.currentTimeSlice} milliseconds"
+                    )
+                    break
 
     def switchFlagsOfQueues(self) -> None:
         tmp = self.activeQueue

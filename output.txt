@@ -1,4 +1,11 @@
-Current time is 1000
+P1 arrived at time 1000 and was put into Expired Queue
 The current processes in the active queue are: []
+The current processes in the expired queue are: [(90, <schedulerProcess.SchedulerProcess object at 0x7f2ed74376a0>)]
+Current time is 1000
+Switched flags for the queues!
+The current processes in the active queue are: [(90, <schedulerProcess.SchedulerProcess object at 0x7f2ed74376a0>)]
 The current processes in the expired queue are: []
-Switching flags for the queues!
+P1 arrived at time 1000 and was put into Expired Queue
+The current processes in the active queue are: [(90, <schedulerProcess.SchedulerProcess object at 0x7f2ed74376a0>)]
+The current processes in the expired queue are: [(90, <schedulerProcess.SchedulerProcess object at 0x7f2ed74376a0>)]
+Process P1 got allocated 1000 milliseconds

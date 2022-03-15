@@ -18,9 +18,11 @@ class Parser:
                 self.listOfUserProcesses.append(
                     UserProcess(line.split()[1], line.split()[2])
                 )
-                # get the PID and priority of the processes
+                # get the PID, arrival time and priority of the processes
                 self.listOfSchedulerProcesses.append(
-                    SchedulerProcess(line.split()[0], int(line.split()[3]))
+                    SchedulerProcess(
+                        line.split()[0], int(line.split()[1]), int(line.split()[3])
+                    )
                 )
 
     def getNumberofProcesses(self) -> int:

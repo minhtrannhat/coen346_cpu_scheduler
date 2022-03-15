@@ -11,7 +11,7 @@ class Clock(Thread):
     def run(self):
         while True:
             # sleep for 50 milliseconds
-            sleep(0.05)
+            sleep(0.020)
 
             # increment clock by 5 milliseconds
             with self.lock:

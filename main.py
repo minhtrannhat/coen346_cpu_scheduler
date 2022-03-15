@@ -15,6 +15,7 @@ def main():
 
     # the scheduler also starts the clock
     scheduler.start()
+    scheduler.join()
 
 
 if __name__ == "__main__":
