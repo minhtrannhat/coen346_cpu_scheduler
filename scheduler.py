@@ -44,6 +44,8 @@ class Scheduler(Thread):
         while True:
             # wait for lock from Clock thread
             with self.lock:
+                logger.debug("Acquired lock from Clock thread")
+
                 # check if at this time, any process arrived
                 for process in self.schedulerTotalProcessesQueue:
                     if process.arrivalTime == clock.currentTime:
@@ -69,14 +71,12 @@ class Scheduler(Thread):
                     logger.debug(
                         f"The current processes in the expired queue are: {self.expiredQueue}"
                     )
-                else:
                     # Get time slice/slot for the first process in the active queue
                     process: SchedulerProcess = heappop(self.activeQueue)[1]
                     self.getTimeSliceForProcess(process)
                     logger.debug(
                         f"Process {process.PID} got allocated {process.currentTimeSlice} milliseconds"
                     )
-                    break
 
     def switchFlagsOfQueues(self) -> None:
         tmp = self.activeQueue
