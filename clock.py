@@ -10,6 +10,7 @@ class Clock(Thread):
 
     def run(self):
         while True:
+            # TODO Change this into 100 ms since the TA said this is too strict
             # sleep for 10 milliseconds
             sleep(0.010)
 

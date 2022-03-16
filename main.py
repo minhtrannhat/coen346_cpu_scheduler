@@ -5,13 +5,10 @@ from threading import Lock
 
 
 def main():
-    # start the parser to get the necessary data
-    parser = Parser()
-
     # create a lock for both the scheduler and the clock
     lock = Lock()
 
-    scheduler = Scheduler(parser.listOfSchedulerProcesses, lock)
+    scheduler = Scheduler(lock)
 
     # the scheduler also starts the clock
     scheduler.start()
