@@ -46,6 +46,7 @@ class Scheduler(Thread):
             # wait for lock from Clock thread
             with self.lock:
                 logger.debug("Acquired lock from Clock thread")
+                clock.checkProccessArrivalTime(parser.listOfUserProcesses)
 
                 # check if at this time, any process arrived
                 for process in parser.listOfUserProcesses:
@@ -81,8 +82,7 @@ class Scheduler(Thread):
                     logger.debug(
                         f"Process {process.PID} got allocated {process.currentTimeSlice} milliseconds"
                     )
-
-            break
+                break
 
             # Start the process and other stuffs
 

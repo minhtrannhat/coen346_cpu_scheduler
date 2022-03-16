@@ -7,3 +7,4 @@ class SchedulerProcessState(Enum):
     PAUSED = "Paused"
     RESUMED = "Resumed"
     IDLE = "Idle"
+    TERMINATED = "Terminated"

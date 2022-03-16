@@ -1,9 +1,0 @@
-Acquired lock from Clock thread
-P1 arrived at time 1000 and was put into Expired Queue
-The current processes in the active queue are: []
-The current processes in the expired queue are: [(90, <schedulerProcess.SchedulerProcess object at 0x7ff9eba93670>)]
-Current time is 1000
-Switched flags for the queues!
-The current processes in the active queue are: [(90, <schedulerProcess.SchedulerProcess object at 0x7ff9eba93670>)]
-The current processes in the expired queue are: []
-Process P1 got allocated 1000 milliseconds

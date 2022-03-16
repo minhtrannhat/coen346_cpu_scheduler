@@ -1,5 +1,4 @@
 from userProcess import UserProcess
-from scheduler import Scheduler
 from schedulerProcess import SchedulerProcess
 
 
@@ -21,7 +20,7 @@ class Parser:
                 # get the PID and priority of the processes
                 self.listOfSchedulerProcesses.append(
                     SchedulerProcess(
-                        line.split()[0], int(line.split()[1]), int(line.split()[3])
+                        line.split()[0], int(line.split()[3])
                     )
                 )
 
