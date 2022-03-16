@@ -1,0 +1,8 @@
+Scheduler running
+Checking for state change
+Checking for state change
+Checking for state change
+Current time is 1000
+Switched flags for the queues!
+The current processes in the active queue are: []
+The current processes in the expired queue are: []

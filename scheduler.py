@@ -44,13 +44,16 @@ class Scheduler(Thread):
 
         while True:
             # wait for lock from Clock thread
+            logger.debug("Scheduler running")
+
             with self.lock:
-                logger.debug("Acquired lock from Clock thread")
                 clock.checkProccessArrivalTime(parser.listOfUserProcesses)
 
-                # check if at this time, any process arrived
-                for process in parser.listOfUserProcesses:
-                    if process.state == SchedulerProcessState.ARRIVED:
+            # check if at this time, any process arrived
+            for process in parser.listOfUserProcesses:
+                logger.debug("Checking for state change")
+                if process.state == SchedulerProcessState.ARRIVED:
+                    with self.lock:
                         self.insertIntoExpiredQueue(process)
                         heapify(self.expiredQueue)
                         logger.debug(
@@ -63,8 +66,9 @@ class Scheduler(Thread):
                             f"The current processes in the expired queue are: {self.expiredQueue}"
                         )
 
-                # If the active queue is empty, swap the flags of the two queues
-                while not self.activeQueue:
+            # If the active queue is empty, swap the flags of the two queues
+            if not self.activeQueue:
+                with self.lock:
                     logger.debug(f"Current time is {clock.currentTime}")
                     self.switchFlagsOfQueues()
                     logger.debug("Switched flags for the queues!")
@@ -74,15 +78,12 @@ class Scheduler(Thread):
                     logger.debug(
                         f"The current processes in the expired queue are: {self.expiredQueue}"
                     )
-
-                while self.activeQueue:
                     # Get time slice/slot for the first process in the active queue
                     process: SchedulerProcess = heappop(self.activeQueue)[1]
                     self.getTimeSliceForProcess(process)
                     logger.debug(
                         f"Process {process.PID} got allocated {process.currentTimeSlice} milliseconds"
                     )
-                break
 
             # Start the process and other stuffs
 
