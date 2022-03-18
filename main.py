@@ -28,10 +28,12 @@ def main():
 
     # start the threads and let them share the mutex
     scheduler = Scheduler(lock)
-
+    clock = Clock(lock)
+    clock.start()
     scheduler.start()
 
     scheduler.join()
+    clock.join()
 
 
 if __name__ == "__main__":

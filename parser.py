@@ -1,10 +1,14 @@
 from userProcess import UserProcess
 from schedulerProcess import SchedulerProcess
-
+from collections import deque
 
 numberOfProcesses = 0
 listOfUserProcesses = []
 listOfSchedulerProcesses = []
+
+# to get time from the clock thread, we access this double ended queue
+timeDeque = deque()
+timeDeque.append(0)
 
 
 def parse() -> None:

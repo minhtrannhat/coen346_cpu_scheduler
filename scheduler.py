@@ -1,7 +1,8 @@
 from threading import Thread
-from heapq import heapify, heappush, heappop
-from clock import Clock
+from heapq import heapify, heappush
 from time import sleep
+from parser import timeDeque
+from clock import checkProcessArrivalTime
 from schedulerProcess import SchedulerProcess
 from parser import listOfUserProcesses, listOfSchedulerProcesses
 import logging
@@ -23,25 +24,23 @@ class Scheduler(Thread):
 
         logger.debug(f"Scheduler running")
 
-        clock = Clock(self.lock)
-        clock.start()
-
         while True:
-            sleep(0.01)
+            sleep(0.02)
+            # wait for lock from Clock thread
             with self.lock:
                 logger.debug(f"Accquired lock from clock thread")
-                # wait for lock from Clock thread
 
                 # check if at this time, any process arrived
                 for processNum, process in enumerate(listOfUserProcesses):
-                    clock.checkProcessArrivalTime(listOfUserProcesses)
+                    checkProcessArrivalTime(process)
                     if process.state == SchedulerProcessState.ARRIVED:
                         self.insertIntoExpiredQueue(
                             listOfSchedulerProcesses[processNum]
                         )
                         heapify(self.expiredQueue)
+                        process.state = SchedulerProcessState.PAUSED
                         logger.debug(
-                            f"{listOfSchedulerProcesses[processNum].PID} arrived at time {clock.currentTime} and was put into Expired Queue"
+                            f"{listOfSchedulerProcesses[processNum].PID} arrived at time {timeDeque[-1]} and was put into Expired Queue"
                         )
                         logger.debug(
                             f"The current processes in the active queue are: {self.activeQueue}"
