@@ -8,14 +8,14 @@ from parser import listOfUserProcesses, listOfSchedulerProcesses
 import logging
 
 from schedulerProcessStates import SchedulerProcessState
+from userProcess import UserProcess
 
 
 class Scheduler(Thread):
     def __init__(self, lock) -> None:
         super(Scheduler, self).__init__()
-        self.activeQueue = []
-        self.expiredQueue = []
-        heapify(self.expiredQueue)
+        self.activeQueue: list[SchedulerProcess] = []
+        self.expiredQueue: list[SchedulerProcess] = []
         self.numberOfProcesses: int = 0
         self.lock = lock
 
@@ -48,28 +48,48 @@ class Scheduler(Thread):
                         logger.debug(
                             f"The current processes in the expired queue are: {self.expiredQueue}"
                         )
+
+                        # immediately switch the flags
+                        if not self.activeQueue:
+                            logger.debug(f"Current time is {timeDeque[-1]}")
+                            self.switchFlagsOfQueues()
+                            logger.debug("Switched flags for the queues!")
+                            logger.debug(
+                                f"The current processes in the active queue are: {self.activeQueue}"
+                            )
+                            logger.debug(
+                                f"The current processes in the expired queue are: {self.expiredQueue}"
+                            )
+
+                    # check if a process is terminated
+                    elif process.state == SchedulerProcessState.TERMINATED:
+                        pass
+
+                # skip if both queues are empty
+                if not self.activeQueue and not self.expiredQueue:
+                    continue
+
+                # if the active queue is not empty, execute time slot for the first process
+                while self.activeQueue:
+                    process: SchedulerProcess = self.activeQueue.pop(0)
+                    self.getTimeSliceForProcess(process)
+                    logger.debug(
+                        f"Process {process.PID} got allocated {process.currentTimeSlice} milliseconds"
+                    )
+
+                # If the active queue is empty, swap the flags of the two queues
+                if not self.activeQueue:
+                    logger.debug(f"Current time is {timeDeque[-1]}")
+                    self.switchFlagsOfQueues()
+                    logger.debug("Switched flags for the queues!")
+                    logger.debug(
+                        f"The current processes in the active queue are: {self.activeQueue}"
+                    )
+                    logger.debug(
+                        f"The current processes in the expired queue are: {self.expiredQueue}"
+                    )
+
                 logger.debug(f"Gave lock back to clock thread")
-
-                # # If the active queue is empty, swap the flags of the two queues
-                # if not self.activeQueue:
-                #     with self.lock:
-                #         logger.debug(f"Current time is {clock.currentTime}")
-                #         self.switchFlagsOfQueues()
-                #         logger.debug("Switched flags for the queues!")
-                #         logger.debug(
-                #             f"The current processes in the active queue are: {self.activeQueue}"
-                #         )
-                #         logger.debug(
-                #             f"The current processes in the expired queue are: {self.expiredQueue}"
-                #         )
-                #         # Get time slice/slot for the first process in the active queue
-                #         process: SchedulerProcess = heappop(self.activeQueue)[1]
-                #         self.getTimeSliceForProcess(process)
-                #         logger.debug(
-                #             f"Process {process.PID} got allocated {process.currentTimeSlice} milliseconds"
-                #         )
-
-                # # Start the process and other stuffs
 
     def switchFlagsOfQueues(self) -> None:
         self.activeQueue, self.expiredQueue = self.expiredQueue, self.activeQueue

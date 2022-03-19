@@ -15,7 +15,6 @@ class Clock(Thread):
     def run(self):
         while True:
             logger = logging.getLogger(f"{__name__} thread")
-            # TODO Change this into 100 ms since the TA said this is too strict
             # sleep for 10 milliseconds
             sleep(0.02)
             # increment clock by 5 milliseconds
