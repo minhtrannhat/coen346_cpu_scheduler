@@ -16,7 +16,7 @@ class Clock(Thread):
         while True:
             logger = logging.getLogger(f"{__name__} thread")
             # sleep for 10 milliseconds
-            sleep(0.02)
+            sleep(0.005)
             with self.lock:
                 # stop the clock thread if the scheduler is done executing
                 if schedulerDone:
@@ -24,6 +24,7 @@ class Clock(Thread):
                 logger.debug(f"Accquired lock from scheduler thread")
                 # increment clock by 5 milliseconds
                 self.currentTime += 5
+                print(self.currentTime)
                 timeDeque.append(self.currentTime)
                 logger.debug(f"Current time is {self.currentTime}")
                 logger.debug(f"Gave the lock back to the scheduler thread")

@@ -206,10 +206,12 @@ class Scheduler(Thread):
                     # check if it's alive or not
                     # if not, start the thread
                     if not runningUserProcess.is_alive():
-                        logger.debug("Gave lock to an userProcess")
-                        runningUserProcess.setLock(lockForProcess)
-                        logger.debug("Started an userProcess")
-                        runningUserProcess.start()
+                        if runningUserProcess.state != SchedulerProcessState.TERMINATED:
+                            logger.debug("Gave lock to an userProcess")
+                            runningUserProcess.setLock(lockForProcess)
+                            logger.debug("Started an userProcess")
+                            runningUserProcess.start()
+                    
 
                     runningUserProcess.state = SchedulerProcessState.RESUMED
                     self.runningSchedulerProcess = runningSchedulerProcess

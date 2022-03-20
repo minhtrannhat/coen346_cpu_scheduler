@@ -26,5 +26,8 @@ class SchedulerProcess:
         self.waitingTime = currentTime - timeSpentInCPU - arrivalTime
 
     def updatePriority(self, currentTime, arrivalTime: int) -> None:
-        bonus: int = floor(10 * self.waitingTime / (currentTime - arrivalTime))
+        if currentTime - arrivalTime !=0:
+            bonus: int = floor(10 * self.waitingTime / (currentTime - arrivalTime))
+        else:
+            bonus: int = 0
         self.priority = max(100, min(self.priority - bonus + 5, 139))
