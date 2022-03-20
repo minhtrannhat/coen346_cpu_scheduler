@@ -24,7 +24,6 @@ class Clock(Thread):
                 logger.debug(f"Accquired lock from scheduler thread")
                 # increment clock by 5 milliseconds
                 self.currentTime += 5
-                print(self.currentTime)
                 timeDeque.append(self.currentTime)
                 logger.debug(f"Current time is {self.currentTime}")
                 logger.debug(f"Gave the lock back to the scheduler thread")

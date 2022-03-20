@@ -12,7 +12,7 @@ def main():
         filemode="w",
         force=True,
         level=logging.INFO,
-        format="{name} - {levelname} - {message}",
+        format="{message}",
         style="{",
     )
 
