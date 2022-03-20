@@ -2,7 +2,7 @@ from threading import Thread
 from time import sleep
 from userProcess import UserProcess
 from schedulerProcessStates import SchedulerProcessState
-from parser import timeDeque
+from parser import timeDeque, schedulerDone
 import logging
 
 
@@ -17,9 +17,12 @@ class Clock(Thread):
             logger = logging.getLogger(f"{__name__} thread")
             # sleep for 10 milliseconds
             sleep(0.02)
-            # increment clock by 5 milliseconds
             with self.lock:
+                # stop the clock thread if the scheduler is done executing
+                if schedulerDone:
+                    break
                 logger.debug(f"Accquired lock from scheduler thread")
+                # increment clock by 5 milliseconds
                 self.currentTime += 5
                 timeDeque.append(self.currentTime)
                 logger.debug(f"Current time is {self.currentTime}")

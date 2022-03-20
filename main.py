@@ -11,7 +11,7 @@ def main():
         filename="output.txt",
         filemode="w",
         force=True,
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="{name} - {levelname} - {message}",
         style="{",
     )
